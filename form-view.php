@@ -23,11 +23,22 @@
             </li>
         </ul>
     </nav>
+
+<?php
+
+?>
+
+<?php 
+if($formValid){
+    echo "order has been sent";
+}
+
+?>
     <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>"> <!--the $_SERVER["PHP_SELF"] sends the submitted form data to the page itself, instead of jumping to a different page. This way, the user will get error messages on the same page as the form. $_SERVER["PHP_SELF"] exploits can be avoided by using the htmlspecialchars() function-->
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="email">E-mail:</label>
-                <input type="text" id="email" name="email" class="form-control"/><span class="error">* <?php echo $emailErr;?></span> <!--display error field required-->
+                <input type="text" id="email" name="email" class="form-control" value="<?php if(isset($_POST['email'])) {echo $_POST['email'];} ?>"/><span class="error">* <?php echo $emailErr;?></span> <!--display error field required-->
             </div>
             <div></div>
         </div>
@@ -38,24 +49,24 @@
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="street">Street:</label>
-                    <input type="text" name="street" id="street" class="form-control">
+                    <input type="text" name="street" id="street" class="form-control"  value="<?php if(isset($_POST['street'])) {echo $_POST['street'];} ?>">
                     <span class="error">* <?php echo $streetErr;?></span> <!--display error field required-->
                 </div>
                 <div class="form-group col-md-6">
                     <label for="streetnumber">Street number:</label>
-                    <input type="text" id="streetnumber" name="streetnumber" class="form-control">
+                    <input type="text" id="streetnumber" name="streetnumber" class="form-control"  value="<?php if(isset($_POST['streetnumber'])) {echo $_POST['streetnumber'];} ?>">
                     <span class="error">* <?php echo $streetnumberErr;?></span> <!--display error field required-->
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="city">City:</label>
-                    <input type="text" id="city" name="city" class="form-control">
+                    <input type="text" id="city" name="city" class="form-control"  value="<?php if(isset($_POST['city'])) {echo $_POST['city'];} ?>">
                     <span class="error">* <?php echo $cityErr;?></span> <!--display error field required-->
                 </div>
                 <div class="form-group col-md-6">
                     <label for="zipcode">Zipcode</label>
-                    <input type="text" id="zipcode" name="zipcode" class="form-control">
+                    <input type="text" id="zipcode" name="zipcode" class="form-control"  value="<?php if(isset($_POST['zipcode'])) {echo $_POST['zipcode'];} ?>">
                     <span class="error">* <?php echo $zipcodeErr;?></span> <!--display error field required-->
                 </div>
             </div>

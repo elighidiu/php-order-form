@@ -15,16 +15,21 @@ session_start();
 $email = $street = $streetnumber = $city = $zipcode = ""; 
 $emailErr = $streetErr = $streetnumberErr = $cityErr = $zipcodeErr = "";
 
+$formValid= false;
+
 //we check whether the form has been submitted using $_SERVER["REQUEST_METHOD"]. If the REQUEST_METHOD is POST, then the form has been submitted - and it should be validated. If it has not been submitted, skip the validation and display a blank form.
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
  
     if (empty($_POST["email"])) {
         $emailErr = "Email is required";
+        $formValid=false;
       } else {
         $email = test_input($_POST["email"]); //validate email
         //i use PHP's filter_var() function to check whether an email address is well-formed 
+        $formValid= true;
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) { 
             $emailErr = "Invalid email format";
+            $formValid=false;
           }
       }
     
@@ -32,34 +37,47 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     //add $street, $streetnumber, $city and $zipcode as required
     if (empty($_POST["street"])) {
         $streetErr = "Street is required";
+        $formValid=false;
     } else {
-        $street = $_POST["street"];
+        $street= $_POST["street"];
+        $formValid=true;
     }
 
     if (empty($_POST["streetnumber"])) {
         $streetnumberErr = "Street number is required";
+        $formValid=false;
     } else {
         $streetnumber = $_POST["streetnumber"];
-        ///^[1-9][0-9]*$/ This forces the first digit to only be between 1 and 9, so you can't have leading zeros. It also forces it to be at least one digit long.
+        //is_numeric & preg_match can both be used to verify if number. is numeric could be decimal number or a number in scientific notation while the preg_match() checks that a value contains the digits zero to nine 
+        
         if (!preg_match("/^[1-9][0-9]*$/", $streetnumber)) { 
             $streetnumberErr = "Only numbers allowed";
+            $formValid=false;
         }
+        $formValid=true;
     }
 
     if (empty($_POST["city"])) {
         $cityErr = "City is required";
+        $formValid=false;
     } else {
         $city = $_POST["city"];
+        $formValid=true;
     }
 
     if (empty($_POST["zipcode"])) {
         $zipcodeErr = "zipcode is required";
+        $formValid=false;
     } else {
         $zipcode = $_POST["zipcode"];
         if (!preg_match("/^[1-9][0-9]*$/", $zipcode)) {
             $zipcodeErr = "Only numbers allowed";
+            $formValid=false;
         }
+        $formValid=true;
     }
+
+    
 }
 
 function test_input($data) {
