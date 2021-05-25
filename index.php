@@ -33,6 +33,8 @@ $emailErr = $streetErr = $streetnumberErr = $cityErr = $zipcodeErr = "";
 
 $formValid= false;
 
+$deliveryTime = getDeliveryTime();
+
 //we check whether the form has been submitted using $_SERVER["REQUEST_METHOD"]. If the REQUEST_METHOD is POST, then the form has been submitted - and it should be validated. If it has not been submitted, skip the validation and display a blank form.
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
  
@@ -76,6 +78,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
         $formValid=true;
         $_SESSION["streetnumber"]=$streetnumber;
+        
     }
 
     if (empty($_POST["city"])) {
@@ -121,7 +124,7 @@ function whatIsHappening() {
 }
 
 //displaying food & drinks with food by default
-if(!isset($_GET['food']) ||  $_GET['food']== 1) {  
+if(!isset($_GET["food"]) ||  $_GET["food"]== 1) {  
 //your products with their price.
     $products = [
         ['name' => 'Club Ham', 'price' => 3.20],
@@ -138,6 +141,17 @@ if(!isset($_GET['food']) ||  $_GET['food']== 1) {
         ['name' => 'Sprite', 'price' => 2],
         ['name' => 'Ice-tea', 'price' => 3],
     ];
+}
+
+function getDeliveryTime (){
+    $currentTime = date("h:i"); //get the current Hour and minutes
+    if(isset($_POST["express_delivery"])) {  //verify if the checkbox for express delivery is checked
+        $expressDelivery= date("H:i" ,strtotime('+45 minutes',strtotime($currentTime))); //Using the date function to set the format of the date to be returned then using strtotime to add the increase or decrease of time then after a comma use another strtotime passing in the start date and time.
+        return "Your order will be delivered at " . $expressDelivery . "</br>";
+    } else {
+        $normalDelivery= date("H:i" ,strtotime('+2 hours',strtotime($currentTime)));
+        return "Your order will be delivered at " . $normalDelivery . "</br>";
+    }
 }
 
 $totalValue = 0;

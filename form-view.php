@@ -30,7 +30,7 @@
 
 <?php 
 if($formValid){
-    echo "order has been sent";
+    echo "order has been sent" .$deliveryTime;
 }
 
 ?>
