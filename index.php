@@ -123,7 +123,7 @@ function whatIsHappening() {
 }
 
 //displaying food & drinks with food by default
-if(!isset($_GET["food"]) ||  $_GET["food"]== 1) {  
+if(!isset($_GET["food"]) || $_GET["food"]== 1) {  
 //your products with their price.
     $products = [
         ['name' => 'Club Ham', 'price' => 3.20],
@@ -145,18 +145,23 @@ if(!isset($_GET["food"]) ||  $_GET["food"]== 1) {
 //calculate totalValue
 $totalValue = 0;
 
+//set cookie for totalValue
+if (!isset($_COOKIE["totalValue"])){
+    setcookie("totalValue", "$totalValue", 0, "/");
+}
+
 if(isset($_POST['products'])){
     $_SESSION=$_POST['products'];
     foreach (($_POST['products']) as $i => $product) {
         $totalValue += ($products[$i]['price']);
-       
+        
     }
 }
 
-//set cookie for totalValue
-if (isset($_POST["totalValue"])){
-    setcookie("totalValue", $totalValue, 0, "/");
-}
+$totalValue += $_COOKIE['totalValue']; //overwrites the totalValue
+setcookie("totalValue", "$totalValue" );
+
+//whatIsHappening();
 
 function getDeliveryTime (){
     $currentTime = date("h:i"); //get the current Hour and minutes
@@ -174,7 +179,6 @@ if (isset($_POST["submit"])) {
     $to = "elighidiu@gmail.com";
     $subject = "New order received";
     $message = "Order for " .$_POST["email"]. "\r\n Delivery address is: \r\n Street: " .$_POST["street"]. "\r\n Street Number: " .$_POST["streetnumber"]. "\r\n City: " .$_POST["city"]. "\r\n Zip Code: " .$_POST["zipcode"];
-    //$header = "From:Personal Ham Processors";
     mail($to, $subject, $message);
    
     if (mail($to, $subject, $message)) {
