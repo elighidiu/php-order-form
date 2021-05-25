@@ -25,14 +25,12 @@ if (ini_get("session.use_cookies")) {
 // Finally, destroy the session.
 session_destroy();
 
+
 // define variables and set to empty values
 $email = $street = $streetnumber = $city = $zipcode = ""; 
-
-
 $emailErr = $streetErr = $streetnumberErr = $cityErr = $zipcodeErr = "";
 
 $formValid= false;
-
 $deliveryTime = getDeliveryTime();
 
 //we check whether the form has been submitted using $_SERVER["REQUEST_METHOD"]. If the REQUEST_METHOD is POST, then the form has been submitted - and it should be validated. If it has not been submitted, skip the validation and display a blank form.
@@ -112,6 +110,7 @@ function test_input($data) {
   return $data;
 }
 
+
 function whatIsHappening() {
     echo '<h2>$_GET</h2>';
     var_dump($_GET);
@@ -143,6 +142,22 @@ if(!isset($_GET["food"]) ||  $_GET["food"]== 1) {
     ];
 }
 
+//calculate totalValue
+$totalValue = 0;
+
+if(isset($_POST['products'])){
+    $_SESSION=$_POST['products'];
+    foreach (($_POST['products']) as $i => $product) {
+        $totalValue += ($products[$i]['price']);
+       
+    }
+}
+
+//set cookie for totalValue
+if (isset($_POST["totalValue"])){
+    setcookie("totalValue", $totalValue, 0, "/");
+}
+
 function getDeliveryTime (){
     $currentTime = date("h:i"); //get the current Hour and minutes
     if(isset($_POST["express_delivery"])) {  //verify if the checkbox for express delivery is checked
@@ -154,6 +169,5 @@ function getDeliveryTime (){
     }
 }
 
-$totalValue = 0;
 
 require 'form-view.php';
