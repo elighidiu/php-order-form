@@ -49,24 +49,23 @@ if($formValid){
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="street">Street:</label>
-                    <input type="text" name="street" id="street" class="form-control"  value="<?php if(isset($_POST['street'])) {echo $_POST['street'];} ?>">
-                    <span class="error">* <?php echo $streetErr;?></span> <!--display error field required-->
+                    <input type="text" name="street" id="street" class="form-control"  value="<?php echo $street; ?>"/><span class="error">* <?php echo $streetErr;?></span> <!--display error field required-->
                 </div>
                 <div class="form-group col-md-6">
                     <label for="streetnumber">Street number:</label>
-                    <input type="text" id="streetnumber" name="streetnumber" class="form-control"  value="<?php if(isset($_POST['streetnumber'])) {echo $_POST['streetnumber'];} ?>">
+                    <input type="text" id="streetnumber" name="streetnumber" class="form-control"  value="<?php echo $streetnumber; ?>">
                     <span class="error">* <?php echo $streetnumberErr;?></span> <!--display error field required-->
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="city">City:</label>
-                    <input type="text" id="city" name="city" class="form-control"  value="<?php if(isset($_POST['city'])) {echo $_POST['city'];} ?>">
+                    <input type="text" id="city" name="city" class="form-control"  value="<?php echo $city; ?>">
                     <span class="error">* <?php echo $cityErr;?></span> <!--display error field required-->
                 </div>
                 <div class="form-group col-md-6">
                     <label for="zipcode">Zipcode</label>
-                    <input type="text" id="zipcode" name="zipcode" class="form-control"  value="<?php if(isset($_POST['zipcode'])) {echo $_POST['zipcode'];} ?>">
+                    <input type="text" id="zipcode" name="zipcode" class="form-control"  value="<?php echo $zipcode; ?>">
                     <span class="error">* <?php echo $zipcodeErr;?></span> <!--display error field required-->
                 </div>
             </div>

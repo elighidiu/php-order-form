@@ -9,10 +9,26 @@ error_reporting(E_ALL);
 //we are going to use session variables so we need to enable sessions
 session_start();
 
+// Unset all of the session variables.
+$_SESSION = array();
 
+// If it's desired to kill the session, also delete the session cookie.
+// Note: This will destroy the session, and not just the session data!
+if (ini_get("session.use_cookies")) {
+    $params = session_get_cookie_params();
+    setcookie(session_name(), '', time() - 42000,
+        $params["path"], $params["domain"],
+        $params["secure"], $params["httponly"]
+    );
+}
+
+// Finally, destroy the session.
+session_destroy();
 
 // define variables and set to empty values
 $email = $street = $streetnumber = $city = $zipcode = ""; 
+
+
 $emailErr = $streetErr = $streetnumberErr = $cityErr = $zipcodeErr = "";
 
 $formValid= false;
@@ -31,6 +47,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $emailErr = "Invalid email format";
             $formValid=false;
           }
+        $_SESSION["email"]=$_POST["email"];
+        //echo  $_SESSION["email"];
       }
     
  
@@ -41,6 +59,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         $street= $_POST["street"];
         $formValid=true;
+        $_SESSION["street"]=$street;
+        //echo $_SESSION["street"];
     }
 
     if (empty($_POST["streetnumber"])) {
@@ -55,6 +75,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $formValid=false;
         }
         $formValid=true;
+        $_SESSION["streetnumber"]=$streetnumber;
     }
 
     if (empty($_POST["city"])) {
@@ -63,6 +84,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         $city = $_POST["city"];
         $formValid=true;
+        $_SESSION["city"]=$city;
     }
 
     if (empty($_POST["zipcode"])) {
@@ -75,10 +97,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $formValid=false;
         }
         $formValid=true;
+        $_SESSION["zipcode"]=$zipcode;
     }
 
-    
-}
+} 
 
 function test_input($data) {
   $data = trim($data);
@@ -98,21 +120,25 @@ function whatIsHappening() {
     var_dump($_SESSION);
 }
 
+//displaying food & drinks with food by default
+if(!isset($_GET['food']) ||  $_GET['food']== 1) {  
 //your products with their price.
-$products = [
-    ['name' => 'Club Ham', 'price' => 3.20],
-    ['name' => 'Club Cheese', 'price' => 3],
-    ['name' => 'Club Cheese & Ham', 'price' => 4],
-    ['name' => 'Club Chicken', 'price' => 4],
-    ['name' => 'Club Salmon', 'price' => 5]
-];
+    $products = [
+        ['name' => 'Club Ham', 'price' => 3.20],
+        ['name' => 'Club Cheese', 'price' => 3],
+        ['name' => 'Club Cheese & Ham', 'price' => 4],
+        ['name' => 'Club Chicken', 'price' => 4],
+        ['name' => 'Club Salmon', 'price' => 5]
+    ];
+} else {
 
-$products = [
-    ['name' => 'Cola', 'price' => 2],
-    ['name' => 'Fanta', 'price' => 2],
-    ['name' => 'Sprite', 'price' => 2],
-    ['name' => 'Ice-tea', 'price' => 3],
-];
+    $products = [
+        ['name' => 'Cola', 'price' => 2],
+        ['name' => 'Fanta', 'price' => 2],
+        ['name' => 'Sprite', 'price' => 2],
+        ['name' => 'Ice-tea', 'price' => 3],
+    ];
+}
 
 $totalValue = 0;
 
