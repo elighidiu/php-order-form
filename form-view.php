@@ -28,12 +28,6 @@
 
 ?>
 
-<?php 
-if($formValid){
-    echo "order has been sent" .$deliveryTime;
-}
-
-?>
     <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>"> <!--the $_SERVER["PHP_SELF"] sends the submitted form data to the page itself, instead of jumping to a different page. This way, the user will get error messages on the same page as the form. $_SERVER["PHP_SELF"] exploits can be avoided by using the htmlspecialchars() function-->
         <div class="form-row">
             <div class="form-group col-md-6">
@@ -85,10 +79,13 @@ if($formValid){
             Express delivery (+ 5 EUR) 
         </label>
             
-        <button type="submit" class="btn btn-primary">Order!</button>
+        <button type="submit" class="btn btn-primary" name="submit">Order!</button>
     </form>
 
-    <footer>You already ordered <strong>&euro; <?php echo $totalValue ?></strong> in food and drinks.</footer>
+    <footer><p>You already ordered <strong>&euro; <?php echo $totalValue ?></strong> in food and drinks.</p>
+    <p><?php if (((!empty($_POST["email"])) && $formValid) && ((!empty($_POST["street"])) && $formValid) && ((!empty($_POST["streetnumber"])) && $formValid) && ((!empty($_POST["city"])) && $formValid) && ((!empty($_POST["zipcode"])) && $formValid)) { echo "Your order has been sent. " .$deliveryTime; } ?>
+    </p>
+    </footer>
 </div>
 
 <style>

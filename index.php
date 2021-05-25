@@ -169,5 +169,20 @@ function getDeliveryTime (){
     }
 }
 
+//send mail 
+if (isset($_POST["submit"])) {
+    $to = "elighidiu@gmail.com";
+    $subject = "New order received";
+    $message = "Order for " .$_POST["email"]. "\r\n Delivery address is: \r\n Street: " .$_POST["street"]. "\r\n Street Number: " .$_POST["streetnumber"]. "\r\n City: " .$_POST["city"]. "\r\n Zip Code: " .$_POST["zipcode"];
+    //$header = "From:Personal Ham Processors";
+    mail($to, $subject, $message);
+   
+    if (mail($to, $subject, $message)) {
+        echo "Mail sent";
+    } else {
+        echo "The email was not send";
+    }
+}
+
 
 require 'form-view.php';
