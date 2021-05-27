@@ -10,7 +10,15 @@
 - May 21
     - I managed to validate the email, I added required fields and I used preg_match to check if the input is a number for zip code and street number. 
     - I display values the user entered so he doesn't need to fill all in again & I show a message if the form is valid
+- May 25
+    - Depending on which link at the top of the page you click, you should be able to order food or drinks 
+    - I calculate the delivery time and list the expected delivery hour
+    - Implemented total revenue counter 
+    - Sent an email once an order is placed 
 
+## Issues encoutered
+
+- Main issue encoutered was related to Sessions & Cookies. I have to look more into how and when to use them.
 
 ## Required features
 ### Step 1: Validation
